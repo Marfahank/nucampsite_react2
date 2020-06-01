@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
-import Directory from './components/DirectoryComponent';
-import './App.css';
-import { CAMPSITES } from './shared/campsites';
+import React, { Component } from "react";
+import { Navbar, NavbarBrand } from "reactstrap";
+import Directory from "./components/DirectoryComponent";
+import "./App.css";
+import { CAMPSITES } from "./shared/campsites";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      campsites: CAMPSITES
+      campsites: CAMPSITES,
     };
   }
   render() {
@@ -17,13 +17,12 @@ class App extends Component {
         <Navbar dark color="primary">
           <div className="container">
             <NavbarBrand href="/">NuCamp</NavbarBrand>
-            <Directory campsites={this.state.campsites} />
           </div>
         </Navbar>
+        <Directory campsites={this.state.campsites} />
       </div>
     );
   }
 }
 
 export default App;
-
