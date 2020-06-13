@@ -38,6 +38,22 @@ class Contact extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleSubmit(event) {
+    console.log("Current state is: " + JSON.stringify(this.state));
+    alert("Current state is: " + JSON.stringify(this.state));
+    event.preventDefault();
+  }
+
   validate(firstName, lastName, phoneNum, email) {
     const errors = {
       firstName: "",
