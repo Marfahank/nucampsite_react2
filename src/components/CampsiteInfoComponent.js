@@ -48,83 +48,87 @@ class CommentForm extends Component {
 
   render() {
     return (
-      <div>
-        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
-          <ModalBody>
-            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
-              <Row className="form-group">
-                <Label htmlFor="rating" md={12}>
-                  Rating
-                </Label>
-                <Col md={12}>
-                  <Control.select
-                    model=".rating"
-                    id="rating"
-                    className="form-control"
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </Control.select>
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Label htmlFor="author" md={12}>
-                  Author
-                </Label>
-                <Col md={12}>
-                  <Control.text
-                    model=".author"
-                    id="author"
-                    className="form-control"
-                    validators={{
-                      required,
-                      minLength: minLength(2),
-                      maxLength: maxLength(15),
-                    }}
-                  />
-                  <Errors
-                    className="text-danger"
-                    model=".author"
-                    show="touched"
-                    component="div"
-                    messages={{
-                      required: "Required",
-                      minLength: "Must be at least 2 Characters",
-                      maxLength: "Must be 15 characters or less",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Label htmlFor="text" md={12}>
-                  Comment
-                </Label>
-                <Col md={12}>
-                  <Control.textarea
-                    model=".text"
-                    id="text"
-                    className="form-control"
-                  />
-                </Col>
-              </Row>
-              <div className="form-group">
-                <Button type="submit" color="primary">
-                  Submit
-                </Button>
-              </div>
-            </LocalForm>
-          </ModalBody>
-        </Modal>
-        <Button outline type="submit" onClick={this.toggleModal}>
-          <i className="fa fa-pencil fa-lg" />
-          <span> Submit Comment</span>
-        </Button>
-      </div>
-    );
+			<div>
+				<Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+					<ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+					<ModalBody>
+						<LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+							<Row className='form-group'>
+								<Label htmlFor='rating' md={12}>
+									Rating
+								</Label>
+								<Col md={12}>
+									<Control.select
+										model='.rating'
+										id='rating'
+										className='form-control'>
+										<option value='1'>1</option>
+										<option value='2'>2</option>
+										<option value='3'>3</option>
+										<option value='4'>4</option>
+										<option value='5'>5</option>
+									</Control.select>
+								</Col>
+							</Row>
+							<Row className='form-group'>
+								<Label htmlFor='author' md={12}>
+									Author
+								</Label>
+								<Col md={12}>
+									<Control.text
+										model='.author'
+										id='author'
+										className='form-control'
+										validators={{
+											required,
+											minLength: minLength(2),
+											maxLength: maxLength(15),
+										}}
+									/>
+									<Errors
+										className='text-danger'
+										model='.author'
+										show='touched'
+										component='div'
+										messages={{
+											required: "Required",
+											minLength: "Must be at least 2 Characters",
+											maxLength: "Must be 15 characters or less",
+										}}
+									/>
+								</Col>
+							</Row>
+							<Row className='form-group'>
+								<Label htmlFor='text' md={12}>
+									Comment
+								</Label>
+								<Col md={12}>
+									{/*
+                    Amy Instructor: 
+                      missing small step: the comment text field with Control.textarea and 6 rows
+                      add row="6" to this textarea control
+                  */}
+									<Control.textarea
+										model='.text'
+										id='text'
+										className='form-control'
+									/>
+								</Col>
+							</Row>
+							<div className='form-group'>
+								<Button type='submit' color='primary'>
+									Submit
+								</Button>
+							</div>
+						</LocalForm>
+					</ModalBody>
+				</Modal>
+				<Button outline type='submit' onClick={this.toggleModal}>
+					<i className='fa fa-pencil fa-lg' />
+					<span> Submit Comment</span>
+				</Button>
+			</div>
+		);
   }
 }
 
