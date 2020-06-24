@@ -20,6 +20,8 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
+import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -52,88 +54,91 @@ class CommentForm extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
-          <ModalBody>
-            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
-              <Row className="form-group">
-                <Label htmlFor="rating" md={12}>
-                  Rating
-                </Label>
-                <Col md={12}>
-                  <Control.select
-                    model=".rating"
-                    id="rating"
-                    className="form-control"
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </Control.select>
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Label htmlFor="author" md={12}>
-                  Author
-                </Label>
-                <Col md={12}>
-                  <Control.text
-                    model=".author"
-                    id="author"
-                    className="form-control"
-                    validators={{
-                      required,
-                      minLength: minLength(2),
-                      maxLength: maxLength(15),
-                    }}
-                  />
-                  <Errors
-                    className="text-danger"
-                    model=".author"
-                    show="touched"
-                    component="div"
-                    messages={{
-                      required: "Required",
-                      minLength: "Must be at least 2 Characters",
-                      maxLength: "Must be 15 characters or less",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Label htmlFor="text" md={12}>
-                  Comment
-                </Label>
-                <Col md={12}>
-                  <Control.textarea
-                    model=".text"
-                    id="text"
-                    className="form-control"
-                  />
-                </Col>
-              </Row>
-              <div className="form-group">
-                <Button type="submit" color="primary">
-                  Submit
-                </Button>
-              </div>
-            </LocalForm>
-          </ModalBody>
-        </Modal>
-        <Button outline type="submit" onClick={this.toggleModal}>
-          <i className="fa fa-pencil fa-lg" />
-          <span> Submit Comment</span>
-        </Button>
-      </div>
-    );
+    const { props } = this;
+    if (props.campsite) {
+      return (
+        <div>
+          <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+            <ModalBody>
+              <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                <Row className="form-group">
+                  <Label htmlFor="rating" md={12}>
+                    Rating
+                  </Label>
+                  <Col md={12}>
+                    <Control.select
+                      model=".rating"
+                      id="rating"
+                      className="form-control"
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </Control.select>
+                  </Col>
+                </Row>
+                <Row className="form-group">
+                  <Label htmlFor="author" md={12}>
+                    Author
+                  </Label>
+                  <Col md={12}>
+                    <Control.text
+                      model=".author"
+                      id="author"
+                      className="form-control"
+                      validators={{
+                        required,
+                        minLength: minLength(2),
+                        maxLength: maxLength(15),
+                      }}
+                    />
+                    <Errors
+                      className="text-danger"
+                      model=".author"
+                      show="touched"
+                      component="div"
+                      messages={{
+                        required: "Required",
+                        minLength: "Must be at least 2 Characters",
+                        maxLength: "Must be 15 characters or less",
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row className="form-group">
+                  <Label htmlFor="text" md={12}>
+                    Comment
+                  </Label>
+                  <Col md={12}>
+                    <Control.textarea
+                      model=".text"
+                      id="text"
+                      className="form-control"
+                    />
+                  </Col>
+                </Row>
+                <div className="form-group">
+                  <Button type="submit" color="primary">
+                    Submit
+                  </Button>
+                </div>
+              </LocalForm>
+            </ModalBody>
+          </Modal>
+          <Button outline type="submit" onClick={this.toggleModal}>
+            <i className="fa fa-pencil fa-lg" />
+            <span> Submit Comment</span>
+          </Button>
+        </div>
+      );
+    }
   }
 }
 
-function RenderComments({ comments, addComment, campsiteId }) {
+function RenderComments({ comments, postComment, campsiteId }) {
   if (comments) {
     return (
       <div className="col-md-5 and m-1">
@@ -149,7 +154,10 @@ function RenderComments({ comments, addComment, campsiteId }) {
             }).format(new Date(Date.parse(comment.date)))}
           </div>
         ))}
-        <CommentForm campsiteId={campsiteId} addComment={addComment} />
+        <CommentForm
+          campsiteId={campsiteId}
+          postComment={this.props.postComment}
+        />
       </div>
     );
   }
@@ -160,7 +168,7 @@ function RenderCampsite({ campsite }) {
   return (
     <div className="col-md-5 and m-1">
       <Card>
-        <CardImg top src={campsite.image} alt={campsite.name} />
+        <CardImg top src={baseUrl + campsite.image} alt={campsite.name} />
         <CardBody>
           <CardText>{campsite.description}</CardText>
         </CardBody>
@@ -170,6 +178,26 @@ function RenderCampsite({ campsite }) {
 }
 
 function CampsiteInfo(props) {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
+  if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h4>{props.errMess}</h4>
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (props.campsite) {
     return (
       <div className="container">

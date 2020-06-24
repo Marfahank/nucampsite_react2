@@ -10,7 +10,7 @@ import {
   Col,
   Row,
 } from "reactstrap";
-import { Control, LocalForm, Errors } from "react-redux-form";
+import { Control, LocalForm, Errors, actions, Form } from "react-redux-form";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -54,8 +54,9 @@ class Contact extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    console.log("Current State is: " + JSON.stringify(values));
+    alert("Current State is: " + JSON.stringify(values));
+    this.props.resetFeedbackForm();
   }
 
   validate(firstName, lastName, phoneNum, email) {
@@ -115,7 +116,10 @@ class Contact extends Component {
             <hr />
           </div>
           <div className="col-md-10">
-            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+            <Form
+              model="feedbackForm"
+              onSubmit={(values) => this.handleSubmit(values)}
+            >
               <Row className="form-group">
                 <Label htmlFor="firstName" md={2}>
                   First Name
@@ -281,7 +285,7 @@ class Contact extends Component {
                   </Button>
                 </Col>
               </Row>
-            </LocalForm>
+            </Form>
           </div>
         </div>
       </div>
