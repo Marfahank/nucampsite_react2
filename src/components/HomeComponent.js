@@ -6,7 +6,6 @@ import { baseUrl } from "../shared/baseUrl";
 function Home(props) {
   return (
     <div className="container">
-      {console.log(`props are`, props)}
       <div className="row">
         <div className="col-md m-1">
           <RenderCard

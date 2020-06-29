@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
+import { Fade, Stagger } from "react-animation-components";
 
 function RenderPartner(props) {
   const { partner } = props;
@@ -35,14 +36,19 @@ function RenderPartner(props) {
 }
 
 function PartnerList(props) {
-  const partners = props.partners.partners.map((partner) => {
-    return (
-      <Media tag="li" key={partner.id}>
-        <RenderPartner partner={partner} />
-      </Media>
-    );
-  });
-  console.log("DAA props:", props);
+  const partners = (
+    <Stagger in>
+      {props.partners.partners.map((partner) => {
+        return (
+          <Fade in key={partner.id}>
+            <Media tag="li">
+              <RenderPartner partner={partner} />
+            </Media>
+          </Fade>
+        );
+      })}
+    </Stagger>
+  );
 
   if (props.partners.isLoading) {
     return <Loading />;

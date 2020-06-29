@@ -15,7 +15,6 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   postComment,
-  addComment,
   fetchCampsites,
   fetchComments,
   fetchPromotions,
@@ -28,8 +27,6 @@ import { actions } from "react-redux-form";
 const mapDispatchToProps = {
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
-  addComment: (campsiteId, rating, author, text) =>
-    addComment(campsiteId, rating, author, text),
   postFeedback: (feedback) => postFeedback(feedback),
   fetchCampsites: () => fetchCampsites(),
   resetFeedbackForm: () => actions.reset("feedbackForm"),
@@ -56,7 +53,6 @@ class Main extends Component {
   }
 
   render() {
-    // return <div>{console.log("Props are:", this.props)}</div>;
     const HomePage = () => {
       return (
         <Home
@@ -99,7 +95,6 @@ class Main extends Component {
             (comment) => comment.campsiteId === +match.params.campsiteId
           )}
           commentsErrMess={this.props.comments.errMess}
-          addComment={this.props.addComment}
           postComment={this.props.postComment}
         />
       );

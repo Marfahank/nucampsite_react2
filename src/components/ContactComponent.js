@@ -108,7 +108,7 @@ class Contact extends Component {
       this.state.email
     );
     return (
-      <div>
+      <div className="container">
         <div className="row row-content">
           <div className="col-12">
             <h2>Send us your Feedback</h2>
